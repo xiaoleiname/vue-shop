@@ -1,7 +1,7 @@
 <template>
   <section class="profile">
     <Header title="我的" />
-    <section class="profile-number">
+    <section class="profile-number" @click="$router.push('/login')">
       <a href="javascript:" class="profile-link">
         <div class="profile_image">
           <i class="iconfont icon-person"></i>
@@ -226,3 +226,8 @@
               color #bbb
               font-size 10px
 </style>
+<!--
+   @click="$router.push('/login')  跳转到loggin登录页面。注册路由
+
+
+-->
