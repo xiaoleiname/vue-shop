@@ -7,7 +7,14 @@
 <script>
   import FooterGuide from './components/FooterGuide/FooterGuide'
   // import FooterGuide from '@/components/FooterGuide/FooterGuide'
+
   export default {
+
+  async mounted () {
+    this.$store.dispatch('getAddress')
+    },
+
+
     components: {//局部注册 只在APP组件使用
       FooterGuide
     }
