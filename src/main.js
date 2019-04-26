@@ -3,9 +3,12 @@ import App from './App.vue'
 import router from './router' //引入全部路由
 import Header from './components/Header/Header.vue'
 import store from './store'
+import Star from './components/Star/Star.vue'
 
 //注册全局组件
 Vue.component('Header',Header)
+Vue.component('Star',Star)
+
 
 new Vue({
   el: '#app',  // el元素会被<App/>
