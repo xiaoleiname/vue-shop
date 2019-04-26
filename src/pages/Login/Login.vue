@@ -12,8 +12,9 @@
         <form>
           <div :class="{on: isShowSms}">
             <section class="login_message">
-              <input type="tel" maxlength="11" placeholder="手机号">
-              <button disabled="disabled" class="get_verification">获取验证码</button>
+              <input type="tel" maxlength="11" placeholder="手机号" v-model="phone">
+              <button :disabled="!isRightPhone" class="get_verification"
+                      :class="{right_phone_number:isRightPhone}" @click.prevent="sendCode">获取验证码</button>
             </section>
             <section class="login_verification">
               <input type="tel" maxlength="8" placeholder="验证码">
@@ -57,9 +58,24 @@
     data () {//设置状态数据
       return {
         isShowSms: true, //短信登录，false：密码登录
+        phone: '', //手机号
       }
+    },
 
+    computed: {
+      //判断phone是不是正确的手机号各市：使用正则
+      isRightPhone () {
+        return   /^1\d{10}$/.test(this.phone)
+      }
+    },
+
+    methods : {
+      sendCode () {
+        alert('......')
+      }
     }
+
+
   }
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
@@ -123,6 +139,9 @@
                 color #ccc
                 font-size 14px
                 background transparent
+                &.right_phone_number
+                  color black
+
             .login_verification
               position relative
               margin-top 16px
@@ -206,5 +225,6 @@
 
           <a href="javascript:;" :class="{on: !isShowSms}" @click="isShowSms=false">密码登录</a>
 
+         @click.prevent  清除默认事件
 
       -->
