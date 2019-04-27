@@ -13,8 +13,9 @@
           <div :class="{on: isShowSms}">
             <section class="login_message">
               <input type="tel" maxlength="11" placeholder="手机号" v-model="phone">
-              <button :disabled="!isRightPhone" class="get_verification"
-                      :class="{right_phone_number:isRightPhone}" @click.prevent="sendCode">获取验证码</button>
+              <button :disabled="!isRightPhone || computeTime>0" class="get_verification"
+                      :class="{right_phone_number:isRightPhone}" @click.prevent="sendCode">
+                {{computeTime ?  `已发送(${computeTime}s)` :'获取验证码'}}</button>
             </section>
             <section class="login_verification">
               <input type="tel" maxlength="8" placeholder="验证码">
@@ -59,6 +60,7 @@
       return {
         isShowSms: true, //短信登录，false：密码登录
         phone: '', //手机号
+        computeTime:'', //倒计时剩余时间
       }
     },
 
@@ -70,8 +72,23 @@
     },
 
     methods : {
+
+      //发送短信验证
       sendCode () {
-        alert('......')
+       // alert('......')
+        this.computeTime = 30
+        //启动循环定时器，每隔1s，减1
+        const intervalId = setInterval(() => {
+          //一旦变为0，停止计时
+          if(this.computeTime===0) {
+            clearInterval(intervalId)
+          }else {
+            this.computeTime--
+          }
+        },1000)
+
+
+
       }
     }
 
@@ -226,5 +243,7 @@
           <a href="javascript:;" :class="{on: !isShowSms}" @click="isShowSms=false">密码登录</a>
 
          @click.prevent  清除默认事件
+
+          {{computeTime ?  `已发送(${computeTime}s)` :'获取验证码'}}</button>  倒计时
 
       -->
