@@ -56,6 +56,8 @@
   </section>
 </template>
 <script>
+
+  import {reqCode} from '../../api'
   export default {
 
     data () {//设置状态数据
@@ -82,7 +84,7 @@
     methods: {
 
       //发送短信验证
-      sendCode () {
+    async sendCode () {
         // alert('......')
         this.computeTime = 30
         //启动循环定时器，每隔1s，减1
@@ -94,6 +96,18 @@
             this.computeTime--
           }
         }, 1000)
+
+        //请求发送验证码
+       const result = await reqCode(this.phone)
+      if (result.code===0) { //成功
+        alert('发送短信验证成功')
+      }else {//失败
+          //停止计时
+        //clearInterval(this.intervalId)
+        this.computeTime = 0
+        alert('发送短信验证码失败')
+
+      }
       },
 
       login () {
