@@ -41,7 +41,7 @@
               </section>
               <section class="login_message">
                 <input type="text" maxlength="11" placeholder="验证码" v-model="captcha">
-                <img class="get_verification" src="./images/captcha.svg" alt="captcha">
+                <img ref="captcha" class="get_verification" src="http://localhost:5000/captcha" alt="captcha"  @click="updateCaptcha">
               </section>
             </section>
           </div>
@@ -120,7 +120,13 @@
         //全部通过了，密码信息登录的请求
         console.log('发送登录请求')
 
-      }
+      },
+
+    //更新图片验证码
+      updateCaptcha () {
+      //一旦给img指定新的src属性，浏览器会自动重新请求更新并更新显示（携带一个时间搓）
+      this.$refs.captcha.src = 'http://localhost:5000/captcha?time' + Date.now()
+    }
     }
   }
 </script>
