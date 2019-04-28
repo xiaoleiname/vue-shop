@@ -1,27 +1,28 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router' //引入全部路由
+import {Button} from 'mint-ui'
+
+import router from './router'
 import Header from './components/Header/Header.vue'
-import store from './store'
 import Star from './components/Star/Star.vue'
+import store from './store'
 
-//注册全局组件
-Vue.component('Header',Header)
-Vue.component('Star',Star)
-
+// 注册全局组件
+Vue.component('Header', Header)
+Vue.component('Star', Star)
+Vue.component(Button.name, Button)   //mt-button
 
 new Vue({
   el: '#app',  // el元素会被<App/>
   /*components: {
-    App
-  },
-  template: '<App/>'*/
+   App
+   },
+   template: '<App/>'*/
 
   render: h => h(App),
   /*render: function (createElement) {
-    return createElement(App)  // 返回<App/>
-  }*/
-    router,//配置路由器
-    store, //配置vuex的store
-
+   return createElement(App)  // 返回<App/>
+   }*/
+  router, // 配置路由器
+  store, // 配置vuex的store
 })

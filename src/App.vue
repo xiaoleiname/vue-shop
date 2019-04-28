@@ -10,11 +10,10 @@
 
   export default {
 
-  async mounted () {
-    this.$store.dispatch('getAddress')
-    this.$store.dispatch('getUser')
+    async mounted () {
+      this.$store.dispatch('getAddress')
+      this.$store.dispatch('getUser')
     },
-
 
     components: {//局部注册 只在APP组件使用
       FooterGuide
