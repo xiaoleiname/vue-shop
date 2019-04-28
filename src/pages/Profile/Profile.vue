@@ -1,18 +1,28 @@
 <template>
   <section class="profile">
     <Header title="我的" />
-    <section class="profile-number" @click="$router.push('/login')">
+    <section class="profile-number" @click="$router.push(user._id ? 'userinfo' : '/login')">
       <a href="javascript:" class="profile-link">
         <div class="profile_image">
           <i class="iconfont icon-person"></i>
         </div>
+
+
         <div class="user-info">
-          <p class="user-info-top">登录/注册</p>
-          <p>
+          <p class="user-info-top" v-if="!user.phone">
+            {{user.name ? user.name : '登录/注册'}}
+          </p>
+
+
+          <p v-if="!user.phone">
                 <span class="user-icon">
                   <i class="iconfont icon-shouji icon-mobile"></i>
                 </span>
-            <span class="icon-mobile-number">暂无绑定手机号</span>
+
+            <span class="icon-mobile-number">
+             {{user.phone ? user.phone : '暂无绑定手机号'}}
+
+          </span>
           </p>
         </div>
         <span class="arrow">
@@ -91,7 +101,13 @@
   </section>
 </template>
 <script>
-  export default {}
+  import {mapState} from 'vuex'
+
+  export default {
+    computed : {
+      ...mapState(['user'])
+    }
+  }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
   @import "../../common/stylus/mixins.styl"

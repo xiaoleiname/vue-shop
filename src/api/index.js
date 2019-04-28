@@ -31,3 +31,7 @@ export const reqPwdLogin = ({name,pwd,captcha}) => ajax(BASE + '/login_pwd',{nam
 
 //手机号验证码登录
 export const reqSmsLogin = ({phone,code}) => ajax(BASE + '/login_sms',{phone,code},'POST')
+
+//根据对话获取用户信息
+
+export const reqUser = () =>ajax(BASE + '/userinfo')

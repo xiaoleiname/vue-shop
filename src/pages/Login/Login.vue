@@ -62,6 +62,7 @@
     reqPwdLogin,
     reqSmsLogin
   } from '../../api'
+  import {RECEIVE_USER} from '../../store/mutation-types'
   export default {
 
     data () {//设置状态数据
@@ -143,7 +144,8 @@
       //根据结果做相应处理
        if(result.code===0) {//成功了
          const user = result.data
-          //保存user
+          //保存user(vuex的state中)
+         this.$store.commit(RECEIVE_USER,user)
 
          //挑战到个人中心
          this.$router.replace('/profile')
