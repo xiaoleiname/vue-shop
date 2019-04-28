@@ -7,12 +7,14 @@
 <script>
   import FooterGuide from './components/FooterGuide/FooterGuide'
   // import FooterGuide from '@/components/FooterGuide/FooterGuide'
-
+import {reqGoods} from './api'
   export default {
 
     async mounted () {
       this.$store.dispatch('getAddress')
       this.$store.dispatch('getUser')
+      const result = await reqGoods()
+      console.log('result',result)
     },
 
     components: {//局部注册 只在APP组件使用
