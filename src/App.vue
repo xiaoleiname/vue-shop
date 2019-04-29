@@ -7,14 +7,13 @@
 <script>
   import FooterGuide from './components/FooterGuide/FooterGuide'
   // import FooterGuide from '@/components/FooterGuide/FooterGuide'
-import {reqInfo} from './api'
+
   export default {
 
     async mounted () {
-      this.$store.dispatch('getAddress')
+      this.$store.dispatch('getAddress')//去vuex的所有模块中查找对应的action调用
       this.$store.dispatch('getUser')
-     const result = await reqInfo()
-      console.log('result',result)
+
     },
 
     components: {//局部注册 只在APP组件使用

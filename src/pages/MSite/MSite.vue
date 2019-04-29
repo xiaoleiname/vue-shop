@@ -62,9 +62,12 @@
 //      })
    },
 
-      computed: {
-      ...
-        mapState(['address', 'categorys']),
+      computed: { //计算属性
+      //...mapState(['address', 'categorys']),
+        ...mapState({ //解决头部读取问题
+          address:state => state.msite.address, //state是种状态
+          categorys:state => state.msite.categorys
+        }),
 
           //根据categorys生成二维数组
           //小数组最大长度是8张照片
