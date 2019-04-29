@@ -19,7 +19,22 @@
 </template>
 <script>
   import ShopHeader from '../../components/ShopHeader/ShopHeader.vue'
+  import {reqGoods,reqRatings,reqInfo} from '../../api'
+  import {RECEIVE_GOODS, RECEIVE_RATINGS, RECEIVE_INFO} from '../../store/mutation-types'
   export default {
+
+    async mounted () {
+      // 一次发3个异步ajax请求, 需要3个都成功才行
+      const values = await Promise.all([reqGoods(), reqRatings(), reqInfo()])
+      const goods = values[0].data
+      const ratings = values[1].data
+      const info = values[2].data
+      // 提交mutation, 将数据保存到vuex的状态中
+      this.$store.commit(RECEIVE_GOODS, {goods})
+      this.$store.commit(RECEIVE_RATINGS, {ratings})
+      this.$store.commit(RECEIVE_INFO, {info})
+    },
+
     components: {//局部注册组件
       ShopHeader
     }

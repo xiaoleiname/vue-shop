@@ -7,13 +7,13 @@
 <script>
   import FooterGuide from './components/FooterGuide/FooterGuide'
   // import FooterGuide from '@/components/FooterGuide/FooterGuide'
-import {reqGoods} from './api'
+import {reqInfo} from './api'
   export default {
 
     async mounted () {
       this.$store.dispatch('getAddress')
       this.$store.dispatch('getUser')
-      const result = await reqGoods()
+     const result = await reqInfo()
       console.log('result',result)
     },
 
