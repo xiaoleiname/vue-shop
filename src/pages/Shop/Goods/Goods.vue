@@ -105,23 +105,55 @@
         console.log('tops', tops)
       },
 
-        //初始化滚动对象
+        /*
+         初始化滑动对象
+         1). 触发滚动回调的时机
+         实时: 高频触发
+         非实时: 低频触发
+         2). 触发滚动的方法
+         触摸
+         惯性
+         编码
+         */
         initScroll ( ) {
           //创建左侧滚动对象
-          new BScroll('.menu-wrapper',{})
+          new BScroll('.menu-wrapper',{
+            click: true, // 开启分发自定义事件
+          })
           //创建右侧滚动对象
-        const rightScroll =  new BScroll('.foods-wrapper',{
-          probeType: 1
+        this.rightScroll =  new BScroll('.foods-wrapper',{
+          probeType: 1, // 非实时  触摸
+          // probeType: 2, // 实时 触摸
+          // probeType: 3, // 实时 触摸 / 惯性 / 编码
+          click: true, // 开启分发自定义事件
         })
 
           //监视右侧对象的scroll事件
-          rightScroll.on('scroll',({x,y}) => {
+         this. rightScroll.on('scroll',({x,y}) => {
             console.log('scroll', x, y)
             this.scrollY = Math.abs(y)
           })
 
+          //监视右侧对象的scrollEnd事件
+         this. rightScroll.on('scrollEnd',({x,y}) => {
+            console.log('scrollEnd', x, y)
+            this.scrollY = Math.abs(y)
+          })
+        },
+        // 选择当前分类项, 右侧滑动到对应位置
+        goCurrent (index) {
+
+          // 得到目标位置的top
+          const top = this.tops[index]
+
+          // 立即更新当前分类项
+          this.scrollY = top
+
+          // 通过编码实现滑动
+          this.rightScroll.scrollTo(0, -top, 300)
         }
-    },
+
+    }
 
 
   }
