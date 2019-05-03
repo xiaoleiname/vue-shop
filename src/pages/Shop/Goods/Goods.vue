@@ -72,8 +72,18 @@
          7 8 14
          scrollY>=top && scrollY<nextTop
          */
-        return tops.findIndex((top, index) => scrollY >= top && scrollY < tops[index + 1])
+       const index = tops.findIndex((top, index) => scrollY >= top && scrollY < tops[index + 1])
 
+        if (index != this.index && this.leftScroll) {
+          // 保存最新的下标
+          this.index = index
+          // 一旦currentIndex发生改变, 将左侧列表滑动到对应的分类项(有可能达不到这个目标, 但至少是在可见范围内的)
+          const li = this.$refs.leftUl.children[index]
+          this.leftScroll.scrollToElement(li, 300)
+        }
+
+
+        return index
       }
     },
 
@@ -117,7 +127,7 @@
          */
         initScroll ( ) {
           //创建左侧滚动对象
-          new BScroll('.menu-wrapper',{
+        this.leftScroll =  new BScroll('.menu-wrapper',{
             click: true, // 开启分发自定义事件
           })
           //创建右侧滚动对象
