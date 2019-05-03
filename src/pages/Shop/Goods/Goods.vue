@@ -2,10 +2,11 @@
   <div>
     <div class="goods">
       <div class="menu-wrapper">
-        <ul>
+        <ul ref="leftUl">
           <!--current-->
 
-          <li class="menu-item" v-for="(good,index) in goods" :key="index">
+          <li class="menu-item" v-for="(good,index) in goods" :key="index"
+              :class="{current: currentIndex===index}" @click="goCurrent(index)">
             <span class="text bottom-border-1px">
                <img class="icon" :src="good.icon" v-if="good.icon">
               {{good.name}}
@@ -14,7 +15,7 @@
         </ul>
       </div>
       <div class="foods-wrapper">
-        <ul>
+        <ul ref="rightUl">
           <li class="food-list-hook" v-for="(good,index) in goods" :key="index">
             <h1 class="title">{{good.name}}</h1>
             <ul>
@@ -46,13 +47,81 @@
   </div>
 </template>
 <script>
+  import BScroll from 'better-scroll'
   import {mapState} from 'vuex'
   export default {
+
+    data(){
+      return{
+        scrollY: 0, // 右侧列表滑动的坐标  在右侧滑动过程中更新此值
+        tops: [], // 右侧所有分类li的top值  在列表初始显示之后计算一次即可
+      }
+    },
+
     computed: {
       ...mapState({
-        goods:state => state.shop.goods
-      })
-    }
+        goods: state => state.shop.goods
+      }),
+
+      //当前分类的下标
+      currentIndex () {
+        const {scrollY, tops} = this
+        /*
+         findIndex(): 查找到第一个匹配元素的下标
+         [0, 4, 7, 15, 19]
+         7 8 14
+         scrollY>=top && scrollY<nextTop
+         */
+        return tops.findIndex((top, index) => scrollY >= top && scrollY < tops[index + 1])
+
+      }
+    },
+
+      watch: {
+        // 利用watch + nextTick 解决better-scroll不能滑动问题
+        goods() { // goods数据有了
+          this.$nextTick(() => { // goods列表显示了
+            this.initScroll()
+            this.initTops()
+
+          })
+        }
+      },
+
+      methods: {
+      initTops() {
+        const tops = []
+
+        // 统计所有分类li的top
+        let top = 0
+        tops.push(top)
+        const lis = this.$refs.rightUl.children
+        Array.from(lis).forEach(li => {
+          top += li.clientHeight
+          tops.push(top)
+        })
+
+        this.tops = tops
+        console.log('tops', tops)
+      },
+
+        //初始化滚动对象
+        initScroll ( ) {
+          //创建左侧滚动对象
+          new BScroll('.menu-wrapper',{})
+          //创建右侧滚动对象
+        const rightScroll =  new BScroll('.foods-wrapper',{
+          probeType: 1
+        })
+
+          //监视右侧对象的scroll事件
+          rightScroll.on('scroll',({x,y}) => {
+            console.log('scroll', x, y)
+            this.scrollY = Math.abs(y)
+          })
+
+        }
+    },
 
 
   }
